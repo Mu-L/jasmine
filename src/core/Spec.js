@@ -167,7 +167,7 @@ getJasmineRequireObj().Spec = function(j$, private$) {
        * @property {ExpectationResult[]} deprecationWarnings - The list of deprecation warnings that occurred during execution this spec.
        * @property {String} pendingReason - If the spec is {@link pending}, this will be the reason.
        * @property {String} notApplicableReason - If the spec is {@link notApplicable}, this will be the reason.
-       * @property {String} status - The result of this spec. May be 'passed', 'failed', 'pending', or 'excluded'.
+       * @property {String} status - The result of this spec. May be 'passed', 'failed', 'pending', 'notApplicable', or 'excluded'.
        * @property {number} duration - The time in ms used by the spec execution, including any before/afterEach.
        * @property {Object} properties - User-supplied properties, if any, that were set using {@link Env#setSpecProperty}
        * @property {DebugLogEntry[]|null} debugLogs - Messages, if any, that were logged using {@link jasmine.debugLog} during a failing spec.
