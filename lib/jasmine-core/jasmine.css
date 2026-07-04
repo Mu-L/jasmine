@@ -201,7 +201,7 @@ body {
   content: "* ";
 }
 .jasmine_html-reporter .jasmine-specs li.jasmine-pending a:before {
-  content: "• ";
+  content: "* ";
 }
 .jasmine_html-reporter .jasmine-specs li.jasmine-notApplicable a:before {
   content: "* ";

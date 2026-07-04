@@ -299,7 +299,7 @@ body {
       }
 
       &.jasmine-pending a:before {
-        content: $passing-mark + $space;
+        content: $pending-mark + $space;
       }
 
       &.jasmine-notApplicable a:before {
