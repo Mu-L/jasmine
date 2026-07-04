@@ -807,20 +807,11 @@ describe('matchersUtil', function() {
       });
 
       ['BigInt64Array', 'BigUint64Array'].forEach(function(typeName) {
-        function requireType() {
-          const TypedArrayCtor = jasmine.getGlobal()[typeName];
-
-          if (!TypedArrayCtor) {
-            pending('Browser does not support ' + typeName);
-          }
-
-          return TypedArrayCtor;
-        }
+        const TypedArrayCtor = jasmine.getGlobal()[typeName];
 
         it(
           'passes for ' + typeName + 's with same length and content',
           function() {
-            const TypedArrayCtor = requireType();
             const matchersUtil = new privateUnderTest.MatchersUtil();
             const a1 = new TypedArrayCtor(2);
             const a2 = new TypedArrayCtor(2);
@@ -831,7 +822,6 @@ describe('matchersUtil', function() {
         );
 
         it('fails for ' + typeName + 's with different length', function() {
-          const TypedArrayCtor = requireType();
           const matchersUtil = new privateUnderTest.MatchersUtil();
           const a1 = new TypedArrayCtor(2);
           const a2 = new TypedArrayCtor(1);
@@ -842,7 +832,6 @@ describe('matchersUtil', function() {
         it(
           'fails for ' + typeName + 's with same length but different content',
           function() {
-            const TypedArrayCtor = requireType();
             const matchersUtil = new privateUnderTest.MatchersUtil();
             const a1 = new TypedArrayCtor(2);
             const a2 = new TypedArrayCtor(2);
