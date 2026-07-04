@@ -12,13 +12,37 @@ describe('Env', function() {
     it('throws a PendingSpecException', function() {
       expect(function() {
         env.pending();
-      }).toThrowError(privateUnderTest.PendingSpecException, '');
+      }).toThrowError(privateUnderTest.errors.PendingSpecException, '');
     });
 
     it('throws the Pending Spec exception with a custom message', function() {
       expect(function() {
         env.pending('custom message');
-      }).toThrowError(privateUnderTest.PendingSpecException, 'custom message');
+      }).toThrowError(
+        privateUnderTest.errors.PendingSpecException,
+        'custom message'
+      );
+    });
+  });
+
+  describe('#notApplicable', function() {
+    it('throws a NotApplicableSpecException', function() {
+      expect(function() {
+        env.notApplicable('custom message');
+      }).toThrowError(
+        privateUnderTest.errors.NotApplicableSpecException,
+        'custom message'
+      );
+    });
+
+    it('requires a message', function() {
+      expect(function() {
+        env.notApplicable();
+      }).toThrowError('A reason why the spec is not applicable is required');
+
+      expect(function() {
+        env.notApplicable('');
+      }).toThrowError('A reason why the spec is not applicable is required');
     });
   });
 

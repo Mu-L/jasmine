@@ -39,9 +39,18 @@ getJasmineHtmlRequireObj().OverallStatusBar = function(j$, private$) {
           pluralize('spec', stateBuilder.specsExecuted) +
           ', ' +
           pluralize('failure', stateBuilder.failureCount);
+
         if (stateBuilder.pendingSpecCount) {
           statusBarMessage +=
             ', ' + pluralize('pending spec', stateBuilder.pendingSpecCount);
+        }
+
+        if (stateBuilder.notApplicableSpecCount) {
+          statusBarMessage +=
+            ', ' +
+            stateBuilder.notApplicableSpecCount +
+            (stateBuilder.notApplicableSpecCount === 1 ? ' spec' : ' specs') +
+            ' not applicable';
         }
       }
 

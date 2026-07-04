@@ -554,6 +554,7 @@ describe('Spec', function() {
         debugLogs: null, // TODO change to []
         properties: null, // TODO change to {}
         pendingReason: '',
+        notApplicableReason: '',
         duration: 123
       });
     });
@@ -617,6 +618,7 @@ describe('Spec', function() {
         debugLogs: null, // TODO change to []
         properties: null, // TODO change to {}
         pendingReason: '',
+        notApplicableReason: '',
         duration: 123
       });
     });
@@ -644,6 +646,21 @@ describe('Spec', function() {
       const result = spec.doneEvent();
       expect(result.status).toEqual('pending');
       expect(result.pendingReason).toEqual('nope');
+    });
+
+    it("reports a status of 'notApplicable' for a spec marked not applicable", function() {
+      const spec = new privateUnderTest.Spec({
+        queueableFn: { fn: () => {} }
+      });
+
+      spec.handleException(
+        new privateUnderTest.errors.NotApplicableSpecException('a reason')
+      );
+      spec.executionFinished(false, false);
+
+      const result = spec.doneEvent();
+      expect(result.status).toEqual('notApplicable');
+      expect(result.notApplicableReason).toEqual('a reason');
     });
 
     it("reports a status of 'excluded' for an excluded spec", function() {

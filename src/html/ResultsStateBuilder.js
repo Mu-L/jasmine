@@ -11,6 +11,7 @@ getJasmineHtmlRequireObj().ResultsStateBuilder = function(j$, private$) {
       this.failureCount = 0;
       this.anyNonTopSuiteFailures = false;
       this.pendingSpecCount = 0;
+      this.notApplicableSpecCount = 0;
       this.deprecationWarnings = [];
     }
 
@@ -47,8 +48,12 @@ getJasmineHtmlRequireObj().ResultsStateBuilder = function(j$, private$) {
         this.anyNonTopSuiteFailures = true;
       }
 
-      if (result.status == 'pending') {
+      if (result.status === 'pending') {
         this.pendingSpecCount++;
+      }
+
+      if (result.status === 'notApplicable') {
+        this.notApplicableSpecCount++;
       }
     }
 

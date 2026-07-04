@@ -120,6 +120,7 @@ getJasmineRequireObj().Spec = function(j$, private$) {
         passedExpectations: [],
         deprecationWarnings: [],
         pendingReason: this.excludeMessage || '',
+        notApplicableReason: '',
         duration: null,
         properties: null,
         debugLogs: null,
@@ -165,6 +166,7 @@ getJasmineRequireObj().Spec = function(j$, private$) {
        * @property {ExpectationResult[]} passedExpectations - The list of expectations that passed during execution of this spec.
        * @property {ExpectationResult[]} deprecationWarnings - The list of deprecation warnings that occurred during execution this spec.
        * @property {String} pendingReason - If the spec is {@link pending}, this will be the reason.
+       * @property {String} notApplicableReason - If the spec is {@link notApplicable}, this will be the reason.
        * @property {String} status - The result of this spec. May be 'passed', 'failed', 'pending', or 'excluded'.
        * @property {number} duration - The time in ms used by the spec execution, including any before/afterEach.
        * @property {Object} properties - User-supplied properties, if any, that were set using {@link Env#setSpecProperty}
@@ -180,6 +182,7 @@ getJasmineRequireObj().Spec = function(j$, private$) {
         'passedExpectations',
         'deprecationWarnings',
         'pendingReason',
+        'notApplicableReason',
         'duration',
         'properties',
         'debugLogs'
@@ -203,8 +206,13 @@ getJasmineRequireObj().Spec = function(j$, private$) {
     }
 
     handleException(e) {
-      if (e instanceof private$.PendingSpecException) {
+      if (e instanceof private$.errors.PendingSpecException) {
         this.pend(e.message);
+        return;
+      }
+
+      if (e instanceof private$.errors.NotApplicableSpecException) {
+        this.#markNotApplicable(e.message);
         return;
       }
 
@@ -244,6 +252,19 @@ getJasmineRequireObj().Spec = function(j$, private$) {
       this.pend(message);
     }
 
+    // Like pend(), but the intent and reporting are different. A notApplicable
+    // spec is never expected to pass in this environment/configuration/etc.
+    #markNotApplicable(reason) {
+      if (!reason) {
+        // Shouldn't happen, but coerce to something truthy if it did
+        // That way we don't need to track whether the spec was marked
+        // not applicable separately from tracking the reason.
+        reason = 'unspecified reason';
+      }
+
+      this.#executionState.notApplicableReason = reason;
+    }
+
     status() {
       if (this.#executionState.dynamicallyExcluded) {
         return 'excluded';
@@ -251,6 +272,10 @@ getJasmineRequireObj().Spec = function(j$, private$) {
 
       if (this.markedPending) {
         return 'pending';
+      }
+
+      if (this.#executionState.notApplicableReason) {
+        return 'notApplicable';
       }
 
       if (

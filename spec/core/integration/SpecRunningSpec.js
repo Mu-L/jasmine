@@ -840,7 +840,40 @@ describe('spec running', function() {
       env.describe('Something', function() {
         env.beforeEach(function() {
           actions.push('outer beforeEach');
-          pending();
+          env.pending();
+        });
+
+        env.afterEach(function() {
+          actions.push('outer afterEach');
+        });
+
+        env.describe('Inner', function() {
+          env.beforeEach(function() {
+            actions.push('inner beforeEach');
+          });
+
+          env.afterEach(function() {
+            actions.push('inner afterEach');
+          });
+
+          env.it('does it', function() {
+            actions.push('inner it');
+          });
+        });
+      });
+
+      await env.execute();
+
+      expect(actions).toEqual(['outer beforeEach', 'outer afterEach']);
+    });
+
+    it('skips to cleanup functions after notApplicable() is called', async function() {
+      const actions = [];
+
+      env.describe('Something', function() {
+        env.beforeEach(function() {
+          actions.push('outer beforeEach');
+          env.notApplicable('nah');
         });
 
         env.afterEach(function() {

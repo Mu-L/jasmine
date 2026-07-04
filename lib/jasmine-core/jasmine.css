@@ -185,6 +185,9 @@ body {
 .jasmine_html-reporter .jasmine-summary li.jasmine-pending a {
   color: #ba9d37;
 }
+.jasmine_html-reporter .jasmine-summary li.jasmine-notApplicable a {
+  color: #ba9d37;
+}
 .jasmine_html-reporter .jasmine-summary li.jasmine-excluded a {
   color: #bababa;
 }
@@ -199,6 +202,9 @@ body {
 }
 .jasmine_html-reporter .jasmine-specs li.jasmine-pending a:before {
   content: "• ";
+}
+.jasmine_html-reporter .jasmine-specs li.jasmine-notApplicable a:before {
+  content: "* ";
 }
 .jasmine_html-reporter .jasmine-specs li.jasmine-excluded a:before {
   content: "• ";

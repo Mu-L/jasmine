@@ -58,6 +58,7 @@ getJasmineHtmlRequireObj().SummaryTreeView = function(j$, private$) {
           if (noExpectations(resultNode.result)) {
             specDescription = 'SPEC HAS NO EXPECTATIONS ' + specDescription;
           }
+
           if (resultNode.result.status === 'pending') {
             if (resultNode.result.pendingReason !== '') {
               specDescription +=
@@ -65,7 +66,11 @@ getJasmineHtmlRequireObj().SummaryTreeView = function(j$, private$) {
             } else {
               specDescription += ' PENDING';
             }
+          } else if (resultNode.result.status === 'notApplicable') {
+            specDescription +=
+              ' NOT APPLICABLE: ' + resultNode.result.notApplicableReason;
           }
+
           specListNode.appendChild(
             createDom(
               'li',

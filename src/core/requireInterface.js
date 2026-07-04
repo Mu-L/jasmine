@@ -305,6 +305,7 @@ getJasmineRequireObj().interface = function(jasmine, env) {
       return env.throwUnless(actual);
     },
 
+    // TODO: improve
     /**
      * Mark a spec as pending, expectation results will be ignored.
      * @name pending
@@ -312,10 +313,24 @@ getJasmineRequireObj().interface = function(jasmine, env) {
      * @function
      * @global
      * @overwritable
-     * @param {String} [message] - Reason the spec is pending.
+     * @param {String} [message] - Reason why the spec is pending.
      */
     pending: function() {
       return env.pending.apply(env, arguments);
+    },
+
+    /**
+     * Mark a spec as not applicable. This is similar to {@link pending} except
+     * that the spec is never expected to pass in the current environment.
+     * @name notApplicable
+     * @since 7.0.0
+     * @function
+     * @global
+     * @overwritable
+     * @param {String} [reason] - Reason why the spec is not applicable.
+     */
+    notApplicable: function() {
+      return env.notApplicable.apply(env, arguments);
     },
 
     /**

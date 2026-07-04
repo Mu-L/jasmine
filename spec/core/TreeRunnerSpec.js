@@ -141,6 +141,31 @@ describe('TreeRunner', function() {
       expect(spec.doneEvent().pendingReason).toEqual('some reason');
     });
 
+    it('marks specs not applicable at runtime with a message', function() {
+      let spec;
+      const queueableFn = {
+        fn() {
+          spec.handleException(
+            new privateUnderTest.errors.NotApplicableSpecException(
+              'some reason'
+            )
+          );
+        }
+      };
+      spec = new privateUnderTest.Spec({ queueableFn });
+
+      const { runQueue, suiteRunQueueArgs } = runSingleSpecSuite(spec);
+      suiteRunQueueArgs.queueableFns[0].fn();
+      expect(runQueue).toHaveBeenCalledTimes(1);
+      const specRunQueueArgs = runQueue.calls.mostRecent().args[0];
+
+      expect(specRunQueueArgs.queueableFns[1]).toEqual(queueableFn);
+      queueableFn.fn();
+
+      expect(spec.doneEvent().status).toEqual('notApplicable');
+      expect(spec.doneEvent().notApplicableReason).toEqual('some reason');
+    });
+
     it('passes failSpecWithNoExp to Spec#executionFinished', async function() {
       const spec = new privateUnderTest.Spec({
         id: 'spec1',

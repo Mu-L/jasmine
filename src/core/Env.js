@@ -787,7 +787,16 @@ getJasmineRequireObj().Env = function(j$, private$) {
     };
 
     this.pending = function(message) {
-      throw new private$.PendingSpecException(message ?? '');
+      throw new private$.errors.PendingSpecException(message ?? '');
+    };
+
+    this.notApplicable = function(message) {
+      if (!message) {
+        // Should already have been enforced by env, but make sure.
+        throw new Error('A reason why the spec is not applicable is required');
+      }
+
+      throw new private$.errors.NotApplicableSpecException(message);
     };
 
     this.fail = function(error) {

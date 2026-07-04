@@ -1076,6 +1076,54 @@ describe('HtmlReporterV2', function() {
       });
     });
 
+    describe('and there are not-applicable specs', function() {
+      let reporter;
+
+      function notApplicableSpecStatus() {
+        return {
+          id: 123,
+          description: 'with a spec',
+          fullName: 'A Suite with a spec',
+          status: 'notApplicable',
+          notApplicableReason: 'default reason',
+          passedExpectations: [],
+          failedExpectations: []
+        };
+      }
+
+      function reportWithSpecStatus(specStatus) {
+        reporter.specDone(specStatus);
+        reporter.jasmineDone({});
+      }
+
+      beforeEach(function() {
+        reporter = setup();
+        reporter.jasmineStarted({ totalSpecsDefined: 1, numExcludedSpecs: 0 });
+      });
+
+      it('reports the pending not-applicable count', function() {
+        reportWithSpecStatus(notApplicableSpecStatus());
+        const alertBar = container.querySelector('.jasmine-alert .jasmine-bar');
+
+        expect(alertBar.innerHTML).toMatch(
+          /1 spec, 0 failures, 1 spec not applicable/
+        );
+      });
+
+      it('displays the reason', function() {
+        reportWithSpecStatus({
+          ...notApplicableSpecStatus(),
+          notApplicableReason: 'my custom reason'
+        });
+        const details = container.querySelector(
+          '.jasmine-summary .jasmine-notApplicable'
+        );
+
+        jasmine.debugLog(container.querySelector('.jasmine-summary').outerHTML);
+        expect(details.innerHTML).toContain('NOT APPLICABLE: my custom reason');
+      });
+    });
+
     describe('and some tests fail', function() {
       let reporter;
 

@@ -1666,6 +1666,7 @@ describe('Env integration', function() {
       failedExpectations: [],
       deprecationWarnings: [],
       pendingReason: '',
+      notApplicableReason: '',
       duration: null,
       properties: null,
       debugLogs: null
@@ -1982,6 +1983,22 @@ describe('Env integration', function() {
     const specStatus = reporter.specDone.calls.argsFor(0)[0];
     expect(specStatus.status).toBe('pending');
     expect(specStatus.pendingReason).toBe('with a message');
+  });
+
+  it('reports not-applicable spec messages', async function() {
+    const reporter = jasmine.createSpyObj('fakeReporter', ['specDone']);
+
+    env.addReporter(reporter);
+
+    env.it('will be pending', function() {
+      env.notApplicable('a reason');
+    });
+
+    await env.execute();
+
+    const specStatus = reporter.specDone.calls.argsFor(0)[0];
+    expect(specStatus.status).toBe('notApplicable');
+    expect(specStatus.notApplicableReason).toBe('a reason');
   });
 
   it('should report pending spec messages from promise-returning functions', async function() {

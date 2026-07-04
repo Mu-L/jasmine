@@ -274,6 +274,10 @@ body {
         color: $pending-color;
       }
 
+      &.jasmine-notApplicable a {
+        color: $pending-color;
+      }
+
       &.jasmine-excluded a {
         color: $neutral-color;
       }
@@ -296,6 +300,10 @@ body {
 
       &.jasmine-pending a:before {
         content: $passing-mark + $space;
+      }
+
+      &.jasmine-notApplicable a:before {
+        content: $pending-mark + $space;
       }
 
       &.jasmine-excluded a:before {
