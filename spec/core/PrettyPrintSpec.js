@@ -183,6 +183,50 @@ describe('PrettyPrinter', function() {
     });
   });
 
+  describe('for a NodeList', function() {
+    beforeEach(function() {
+      if (typeof document === 'undefined') {
+        pending('This test only runs in browsers');
+      }
+    });
+
+    it('stringifies NodeLists like arrays with extra type info', function() {
+      const pp = privateUnderTest.makePrettyPrinter();
+      const nodeList = makeNodeList(
+        document.createElement('p'),
+        document.createElement('b')
+      );
+      expect(pp(nodeList)).toEqual('NodeList[ <p>, <b> ]');
+    });
+
+    it('truncates NodeLists that are longer than jasmineUnderTest.MAX_PRETTY_PRINT_ARRAY_LENGTH', function() {
+      const originalMaxLength = jasmineUnderTest.MAX_PRETTY_PRINT_ARRAY_LENGTH;
+      const pp = privateUnderTest.makePrettyPrinter();
+      const nodeList = makeNodeList(
+        document.createElement('p'),
+        document.createElement('b'),
+        document.createElement('div')
+      );
+
+      try {
+        jasmineUnderTest.MAX_PRETTY_PRINT_ARRAY_LENGTH = 2;
+        expect(pp(nodeList)).toEqual('NodeList[ <p>, <b>, ... ]');
+      } finally {
+        jasmineUnderTest.MAX_PRETTY_PRINT_ARRAY_LENGTH = originalMaxLength;
+      }
+    });
+
+    function makeNodeList(...childNodes) {
+      const parent = document.createElement('div');
+
+      for (const child of childNodes) {
+        parent.appendChild(child);
+      }
+
+      return parent.childNodes;
+    }
+  });
+
   describe('for an object', function() {
     it('stringifies objects properly', function() {
       const pp = privateUnderTest.makePrettyPrinter();
