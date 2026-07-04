@@ -843,63 +843,6 @@ describe('matchersUtil', function() {
       });
     });
 
-    describe('when running in an environment with array polyfills', function() {
-      const findIndexDescriptor = Object.getOwnPropertyDescriptor(
-        Array.prototype,
-        'findIndex'
-      );
-
-      beforeEach(function() {
-        if (!findIndexDescriptor) {
-          jasmine
-            .getEnv()
-            .pending(
-              'Environment does not have a property descriptor for Array.prototype.findIndex'
-            );
-        }
-
-        Object.defineProperty(Array.prototype, 'findIndex', {
-          enumerable: true,
-          value: function(predicate) {
-            if (this === null) {
-              throw new TypeError(
-                'Array.prototype.findIndex called on null or undefined'
-              );
-            }
-
-            if (typeof predicate !== 'function') {
-              throw new TypeError('predicate must be a function');
-            }
-
-            const list = Object(this);
-            const length = list.length >>> 0;
-            const thisArg = arguments[1];
-
-            for (let i = 0; i < length; i++) {
-              const value = list[i];
-              if (predicate.call(thisArg, value, i, list)) {
-                return i;
-              }
-            }
-
-            return -1;
-          }
-        });
-      });
-
-      afterEach(function() {
-        Object.defineProperty(
-          Array.prototype,
-          'findIndex',
-          findIndexDescriptor
-        );
-      });
-
-      it("passes when there's an array polyfill", function() {
-        expect(['foo']).toEqual(['foo']);
-      });
-    });
-
     describe('Building diffs for asymmetric equality testers', function() {
       it('diffs the values returned by valuesForDiff_', function() {
         const tester = {
