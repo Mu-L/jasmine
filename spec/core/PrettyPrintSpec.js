@@ -1,6 +1,6 @@
 describe('PrettyPrinter', function() {
-  describe('stringify primitives', function() {
-    it('should stringify primitives properly', function() {
+  describe('for a primitive', function() {
+    it('stringifies primitives properly', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       expect(pp(true)).toEqual('true');
       expect(pp(false)).toEqual('false');
@@ -12,8 +12,8 @@ describe('PrettyPrinter', function() {
     });
   });
 
-  describe('stringify strings', function() {
-    it('should wrap strings in single quotes', function() {
+  describe('for a string', function() {
+    it('wraps the string in single quotes', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       expect(pp('some string')).toEqual("'some string'");
       expect(pp("som' string")).toEqual("'som' string'");
@@ -27,7 +27,7 @@ describe('PrettyPrinter', function() {
       expect(pp([new String('')])).toEqual("[ '' ]");
     });
 
-    it('should not do HTML escaping of strings', function() {
+    it('does not do HTML escaping', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       expect(pp('some <b>html string</b> &', false)).toEqual(
         "'some <b>html string</b> &'"
@@ -35,30 +35,30 @@ describe('PrettyPrinter', function() {
     });
   });
 
-  describe('stringify RegExps', function() {
-    it('should stringify RegExp objects properly', function() {
+  describe('for a RegExp', function() {
+    it('stringifies RegExp objects properly', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       expect(pp(/x|y|z/)).toEqual('/x|y|z/');
     });
   });
 
-  describe('stringify the global object', function() {
-    it('should abbreviate the global (usually window) object', function() {
+  describe('for the global object', function() {
+    it('outputs an abbreviation', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       expect(pp(jasmine.getGlobal())).toEqual('<global>');
     });
   });
 
-  describe('stringify Dates', function() {
-    it('should stringify Date objects properly', function() {
+  describe('for a Date', function() {
+    it('stringifies Date objects properly', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const now = new Date();
       expect(pp(now)).toEqual('Date(' + now.toString() + ')');
     });
   });
 
-  describe('stringify sets', function() {
-    it('should stringify sets properly', function() {
+  describe('for a Set', function() {
+    it('stringifies sets properly', function() {
       const set = new Set();
       set.add(1);
       set.add(2);
@@ -66,7 +66,7 @@ describe('PrettyPrinter', function() {
       expect(pp(set)).toEqual('Set( 1, 2 )');
     });
 
-    it('should truncate sets with more elements than jasmineUnderTest.MAX_PRETTY_PRINT_ARRAY_LENGTH', function() {
+    it('truncates sets with more elements than jasmineUnderTest.MAX_PRETTY_PRINT_ARRAY_LENGTH', function() {
       const originalMaxSize = jasmineUnderTest.MAX_PRETTY_PRINT_ARRAY_LENGTH;
 
       try {
@@ -83,15 +83,15 @@ describe('PrettyPrinter', function() {
     });
   });
 
-  describe('stringify maps', function() {
-    it('should stringify maps properly', function() {
+  describe('for a Map', function() {
+    it('stringifies maps properly', function() {
       const map = new Map();
       map.set(1, 2);
       const pp = privateUnderTest.makePrettyPrinter();
       expect(pp(map)).toEqual('Map( [ 1, 2 ] )');
     });
 
-    it('should truncate maps with more elements than jasmineUnderTest.MAX_PRETTY_PRINT_ARRAY_LENGTH', function() {
+    it('truncates maps with more elements than jasmineUnderTest.MAX_PRETTY_PRINT_ARRAY_LENGTH', function() {
       const originalMaxSize = jasmineUnderTest.MAX_PRETTY_PRINT_ARRAY_LENGTH;
 
       try {
@@ -108,8 +108,8 @@ describe('PrettyPrinter', function() {
     });
   });
 
-  describe('stringify arrays', function() {
-    it('should stringify arrays properly', function() {
+  describe('for an array', function() {
+    it('stringifies arrays properly', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       expect(pp([1, 2])).toEqual('[ 1, 2 ]');
       expect(pp([1, 'foo', {}, jasmine.undefined, null])).toEqual(
@@ -122,7 +122,7 @@ describe('PrettyPrinter', function() {
       expect(pp([1, Symbol('foo'), 2])).toEqual('[ 1, Symbol(foo), 2 ]');
     });
 
-    it('should truncate arrays that are longer than jasmineUnderTest.MAX_PRETTY_PRINT_ARRAY_LENGTH', function() {
+    it('truncates arrays that are longer than jasmineUnderTest.MAX_PRETTY_PRINT_ARRAY_LENGTH', function() {
       const originalMaxLength = jasmineUnderTest.MAX_PRETTY_PRINT_ARRAY_LENGTH;
       const array = [1, 2, 3];
       const pp = privateUnderTest.makePrettyPrinter();
@@ -135,7 +135,7 @@ describe('PrettyPrinter', function() {
       }
     });
 
-    it('should stringify arrays with properties properly', function() {
+    it('includes extra properties', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const arr = [1, 2];
       arr.foo = 'bar';
@@ -143,7 +143,7 @@ describe('PrettyPrinter', function() {
       expect(pp(arr)).toEqual("[ 1, 2, foo: 'bar', baz: Object({  }) ]");
     });
 
-    it('should stringify empty arrays with properties properly', function() {
+    it('stringifies empty arrays with extra properties', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const empty = [];
       empty.foo = 'bar';
@@ -151,7 +151,7 @@ describe('PrettyPrinter', function() {
       expect(pp(empty)).toEqual("[ foo: 'bar', baz: Object({  }) ]");
     });
 
-    it('should stringify long arrays with properties properly', function() {
+    it('stringifies long arrays with extra properties', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const originalMaxLength = jasmineUnderTest.MAX_PRETTY_PRINT_ARRAY_LENGTH;
       const long = [1, 2, 3];
@@ -168,7 +168,7 @@ describe('PrettyPrinter', function() {
       }
     });
 
-    it('should indicate circular array references', function() {
+    it('indicates circular array references', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const array1 = [1, 2];
       const array2 = [array1];
@@ -176,15 +176,15 @@ describe('PrettyPrinter', function() {
       expect(pp(array1)).toEqual('[ 1, 2, [ <circular reference: Array> ] ]');
     });
 
-    it('should not indicate circular references incorrectly', function() {
+    it('does not indicate nonexistent circular references', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const array = [[1]];
       expect(pp(array)).toEqual('[ [ 1 ] ]');
     });
   });
 
-  describe('stringify objects', function() {
-    it('should stringify objects properly', function() {
+  describe('for an object', function() {
+    it('stringifies objects properly', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       expect(pp({ foo: 'bar' })).toEqual("Object({ foo: 'bar' })");
       expect(
@@ -209,7 +209,7 @@ describe('PrettyPrinter', function() {
       expect(pp(obj)).toEqual("Object({ Symbol(foo): 'bar' })");
     });
 
-    it('stringifies string and symbol keys differently', function() {
+    it('distinguishes between string and symbol keys', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const symObj = {};
       const strObj = {};
@@ -221,12 +221,12 @@ describe('PrettyPrinter', function() {
       expect(pp(symObj)).not.toEqual(pp(strObj));
     });
 
-    it('should stringify objects that almost look like DOM nodes', function() {
+    it('stringifies objects that almost look like DOM nodes', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       expect(pp({ nodeType: 1 })).toEqual('Object({ nodeType: 1 })');
     });
 
-    it('should truncate objects with too many keys', function() {
+    it('truncates objects with more than MAX_PRETTY_PRINT_ARRAY_LENGTH keys', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const originalMaxLength = jasmineUnderTest.MAX_PRETTY_PRINT_ARRAY_LENGTH;
       const long = { a: 1, b: 2, c: 3 };
@@ -239,13 +239,13 @@ describe('PrettyPrinter', function() {
       }
     });
 
-    it("should print 'null' as the constructor of an object with its own constructor property", function() {
+    it("prints 'null' as the constructor of an object with its own constructor property", function() {
       const pp = privateUnderTest.makePrettyPrinter();
       expect(pp({ constructor: function() {} })).toContain('null({');
       expect(pp({ constructor: 'foo' })).toContain('null({');
     });
 
-    it('should not include inherited properties when stringifying an object', function() {
+    it('excludes inherited properties', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const SomeClass = function SomeClass() {};
       SomeClass.prototype.foo = 'inherited foo';
@@ -254,7 +254,7 @@ describe('PrettyPrinter', function() {
       expect(pp(instance)).toEqual("SomeClass({ bar: 'my own bar' })");
     });
 
-    it('should use the return value of getters', function() {
+    it('uses the return value of getters', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const sampleValue = {
         id: 1,
@@ -267,7 +267,7 @@ describe('PrettyPrinter', function() {
       );
     });
 
-    it('should handle objects with null prototype', function() {
+    it('handles objects with null prototype', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const obj = Object.create(null);
       obj.foo = 'bar';
@@ -276,7 +276,7 @@ describe('PrettyPrinter', function() {
     });
   });
 
-  describe('stringify functions', function() {
+  describe('for a function', function() {
     it('stringifies functions with names', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       expect(pp(foo)).toEqual("Function 'foo'");
@@ -289,7 +289,7 @@ describe('PrettyPrinter', function() {
     });
   });
 
-  describe('with a spy object', function() {
+  describe('for a spy object', function() {
     let env, pp;
 
     beforeEach(function() {
@@ -301,7 +301,7 @@ describe('PrettyPrinter', function() {
       env.cleanup_();
     });
 
-    it('should stringify spy objects properly', function() {
+    it('stringifies spy objects properly', function() {
       const TestObject = {
         someFunction: function() {}
       };
@@ -321,7 +321,7 @@ describe('PrettyPrinter', function() {
       expect(pp(env.createSpy('something'))).toEqual('spy on something');
     });
 
-    it('should stringify spyOn toString properly', function() {
+    it('stringifies spyOn toString properly', function() {
       const TestObject = {
         someFunction: function() {}
       };
@@ -347,7 +347,7 @@ describe('PrettyPrinter', function() {
   describe('Truncation', function() {
     // See also truncation specs for specific argument types above.
 
-    it('should truncate outputs that are too long', function() {
+    it('truncates outputs that are longer than MAX_PRETTY_PRINT_CHARS', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const big = [{ a: 1, b: 'a long string' }, {}];
 
@@ -356,7 +356,7 @@ describe('PrettyPrinter', function() {
       });
     });
 
-    it('should not serialize more objects after hitting MAX_PRETTY_PRINT_CHARS', function() {
+    it('stops serializing objects after hitting MAX_PRETTY_PRINT_CHARS', function() {
       const a = {
         jasmineToString: function() {
           return 'object a';
@@ -386,7 +386,7 @@ describe('PrettyPrinter', function() {
       });
     });
 
-    it('should not recurse objects and arrays more deeply than jasmineUnderTest.MAX_PRETTY_PRINT_DEPTH', function() {
+    it("doesn't recurse more deeply than jasmineUnderTest.MAX_PRETTY_PRINT_DEPTH", function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const originalMaxDepth = jasmineUnderTest.MAX_PRETTY_PRINT_DEPTH;
       const nestedObject = {
@@ -419,7 +419,7 @@ describe('PrettyPrinter', function() {
   });
 
   describe('Cycle handling', function() {
-    it('should indicate circular object references', function() {
+    it('indicates circular object references', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const sampleValue = { foo: 'hello' };
       sampleValue.nested = sampleValue;
@@ -428,7 +428,7 @@ describe('PrettyPrinter', function() {
       );
     });
 
-    it('should stringify immutable circular objects', function() {
+    it('stringifies immutable circular objects', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       let frozenObject = { foo: { bar: 'baz' } };
       frozenObject.circular = frozenObject;
@@ -440,7 +440,7 @@ describe('PrettyPrinter', function() {
   });
 
   describe('Customization', function() {
-    it('should stringify objects that implement jasmineToString', function() {
+    it('uses the return value of jasmineToString when present', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const obj = {
         jasmineToString: function() {
@@ -451,7 +451,7 @@ describe('PrettyPrinter', function() {
       expect(pp(obj)).toEqual('strung');
     });
 
-    it('should pass itself to jasmineToString', function() {
+    it('passes itself to jasmineToString', function() {
       const pp = privateUnderTest.makePrettyPrinter([]);
       const obj = {
         jasmineToString: jasmine
@@ -463,7 +463,7 @@ describe('PrettyPrinter', function() {
       expect(obj.jasmineToString).toHaveBeenCalledWith(pp);
     });
 
-    it('should stringify objects that implement custom toString', function() {
+    it('uses the return value of a custom toString when present', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const obj = {
         toString: function() {
@@ -487,7 +487,7 @@ describe('PrettyPrinter', function() {
       );
     });
 
-    it("should stringify objects have have a toString that isn't a function", function() {
+    it("stringifies objects have have a toString that isn't a function", function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const obj = {
         toString: 'foo'
@@ -496,7 +496,7 @@ describe('PrettyPrinter', function() {
       expect(pp(obj)).toEqual("Object({ toString: 'foo' })");
     });
 
-    it('should stringify objects from anonymous constructors with custom toString', function() {
+    it('stringifies objects from anonymous constructors with custom toString', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const MyAnonymousConstructor = (function() {
         return function() {};
@@ -510,7 +510,7 @@ describe('PrettyPrinter', function() {
       expect(pp(a)).toEqual('<anonymous>({  })');
     });
 
-    it('should gracefully handle objects with invalid toString implementations', function() {
+    it('gracefully handles invalid toString implementations', function() {
       const pp = privateUnderTest.makePrettyPrinter();
       const obj = {
         foo: {
@@ -547,7 +547,7 @@ describe('PrettyPrinter', function() {
     });
 
     describe('Custom object formatters', function() {
-      it('should use the first custom object formatter that does not return undefined', function() {
+      it('uses the first custom object formatter that does not return undefined', function() {
         const customObjectFormatters = [
           function() {
             return undefined;
@@ -565,7 +565,7 @@ describe('PrettyPrinter', function() {
         expect(pp(obj)).toEqual('2nd: bar');
       });
 
-      it('should fall back to built in logic if all custom object formatters return undefined', function() {
+      it('falls back to built in logic if all custom object formatters return undefined', function() {
         const customObjectFormatters = [
           function() {
             return undefined;
@@ -579,7 +579,7 @@ describe('PrettyPrinter', function() {
     });
 
     describe('#customFormat_', function() {
-      it('should use the first custom object formatter that does not return undefined', function() {
+      it('uses the first custom object formatter that does not return undefined', function() {
         const customObjectFormatters = [
           function() {
             return undefined;
@@ -597,7 +597,7 @@ describe('PrettyPrinter', function() {
         expect(pp.customFormat_(obj)).toEqual('2nd: bar');
       });
 
-      it('should return undefined if all custom object formatters return undefined', function() {
+      it('returns undefined if all custom object formatters return undefined', function() {
         const customObjectFormatters = [
           function() {
             return undefined;
