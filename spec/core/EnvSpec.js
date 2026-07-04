@@ -9,18 +9,16 @@ describe('Env', function() {
   });
 
   describe('#pending', function() {
-    it('throws the Pending Spec exception', function() {
+    it('throws a PendingSpecException', function() {
       expect(function() {
         env.pending();
-      }).toThrow(privateUnderTest.Spec.pendingSpecExceptionMessage);
+      }).toThrowError(privateUnderTest.PendingSpecException, '');
     });
 
     it('throws the Pending Spec exception with a custom message', function() {
       expect(function() {
         env.pending('custom message');
-      }).toThrow(
-        privateUnderTest.Spec.pendingSpecExceptionMessage + 'custom message'
-      );
+      }).toThrowError(privateUnderTest.PendingSpecException, 'custom message');
     });
   });
 

@@ -82,6 +82,7 @@ const getJasmineRequireObj = (function() {
     private$.RunableResources = jRequire.RunableResources(j$, private$);
     private$.Runner = jRequire.Runner(j$, private$);
     private$.Spec = jRequire.Spec(j$, private$);
+    private$.PendingSpecException = jRequire.PendingSpecException(j$, private$);
     private$.Spy = jRequire.Spy(j$, private$);
     private$.SpyFactory = jRequire.SpyFactory(j$, private$);
     private$.SpyRegistry = jRequire.SpyRegistry(j$, private$);

@@ -203,8 +203,8 @@ getJasmineRequireObj().Spec = function(j$, private$) {
     }
 
     handleException(e) {
-      if (Spec.isPendingSpecException(e)) {
-        this.pend(extractCustomPendingMessage(e));
+      if (e instanceof private$.PendingSpecException) {
+        this.pend(e.message);
         return;
       }
 
@@ -362,27 +362,6 @@ getJasmineRequireObj().Spec = function(j$, private$) {
       return this.#metadata;
     }
   }
-
-  const extractCustomPendingMessage = function(e) {
-    const fullMessage = e.toString();
-    const boilerplateStart = fullMessage.indexOf(
-      Spec.pendingSpecExceptionMessage
-    );
-    const boilerplateEnd =
-      boilerplateStart + Spec.pendingSpecExceptionMessage.length;
-
-    return fullMessage.slice(boilerplateEnd);
-  };
-
-  Spec.pendingSpecExceptionMessage = '=> marked Pending';
-
-  Spec.isPendingSpecException = function(e) {
-    return !!(
-      e &&
-      e.toString &&
-      e.toString().indexOf(Spec.pendingSpecExceptionMessage) !== -1
-    );
-  };
 
   return Spec;
 };

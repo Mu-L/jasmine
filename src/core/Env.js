@@ -787,11 +787,7 @@ getJasmineRequireObj().Env = function(j$, private$) {
     };
 
     this.pending = function(message) {
-      let fullMessage = private$.Spec.pendingSpecExceptionMessage;
-      if (message) {
-        fullMessage += message;
-      }
-      throw fullMessage;
+      throw new private$.PendingSpecException(message ?? '');
     };
 
     this.fail = function(error) {

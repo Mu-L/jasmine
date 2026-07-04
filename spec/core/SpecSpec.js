@@ -1,38 +1,4 @@
 describe('Spec', function() {
-  it('#isPendingSpecException returns true for a pending spec exception', function() {
-    const e = new Error(privateUnderTest.Spec.pendingSpecExceptionMessage);
-
-    expect(privateUnderTest.Spec.isPendingSpecException(e)).toBe(true);
-  });
-
-  it('#isPendingSpecException returns true for a pending spec exception (even when FF bug is present)', function() {
-    const fakeError = {
-      toString: function() {
-        return 'Error: ' + privateUnderTest.Spec.pendingSpecExceptionMessage;
-      }
-    };
-
-    expect(privateUnderTest.Spec.isPendingSpecException(fakeError)).toBe(true);
-  });
-
-  it('#isPendingSpecException returns true for a pending spec exception with a custom message', function() {
-    expect(
-      privateUnderTest.Spec.isPendingSpecException(
-        privateUnderTest.Spec.pendingSpecExceptionMessage + 'foo'
-      )
-    ).toBe(true);
-  });
-
-  it('#isPendingSpecException returns false for not a pending spec exception', function() {
-    const e = new Error('foo');
-
-    expect(privateUnderTest.Spec.isPendingSpecException(e)).toBe(false);
-  });
-
-  it("#isPendingSpecException returns false for thrown values that don't have toString", function() {
-    expect(privateUnderTest.Spec.isPendingSpecException(void 0)).toBe(false);
-  });
-
   describe('#executionFinished', function() {
     it('removes the fn if autoCleanClosures is true', function() {
       const spec = new privateUnderTest.Spec({
