@@ -64,9 +64,8 @@ describe('buildExpectationResult', function() {
   });
 
   it('handles nodejs assertions', function() {
-    if (typeof require === 'undefined') {
-      pending('This test only runs in Node');
-    }
+    specHelpers.requiresNode();
+
     const assert = require('assert');
     let error;
     try {

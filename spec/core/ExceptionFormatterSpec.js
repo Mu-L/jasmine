@@ -208,8 +208,9 @@ describe('ExceptionFormatter', function() {
       const error = new Error(msg);
 
       if (error.stack.indexOf(msg) === -1) {
-        pending("Stack traces don't have messages in this environment");
+        notApplicable("Stack traces don't have messages in this environment");
       }
+
       const subject = new privateUnderTest.ExceptionFormatter({ jasmineFile });
       const result = subject.stack(error);
       const lines = result.split('\n');

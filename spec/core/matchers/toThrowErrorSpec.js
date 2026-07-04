@@ -68,11 +68,12 @@ describe('toThrowError', function() {
   });
 
   describe('when error is from another frame', function() {
-    function isNotRunningInBrowser() {
-      return typeof document === 'undefined';
-    }
+    let iframe;
 
-    let iframe = null;
+    beforeEach(function() {
+      iframe = null;
+      specHelpers.requiresBrowser();
+    });
 
     afterEach(function() {
       if (iframe !== null) {
@@ -81,10 +82,6 @@ describe('toThrowError', function() {
     });
 
     it('passes if thrown is an instanceof Error regardless of global that contains its constructor', function() {
-      if (isNotRunningInBrowser()) {
-        pending('This test only runs in browsers.');
-      }
-
       const matcher = privateUnderTest.matchers.toThrowError();
       iframe = document.body.appendChild(document.createElement('iframe'));
       iframe.src = 'about:blank';

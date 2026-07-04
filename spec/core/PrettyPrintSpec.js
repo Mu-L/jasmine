@@ -185,9 +185,7 @@ describe('PrettyPrinter', function() {
 
   describe('for a NodeList', function() {
     beforeEach(function() {
-      if (typeof document === 'undefined') {
-        pending('This test only runs in browsers');
-      }
+      specHelpers.requiresBrowser();
     });
 
     it('stringifies NodeLists like arrays with extra type info', function() {

@@ -260,9 +260,7 @@ describe('matchersUtil', function() {
 
     describe('when running in a browser', function() {
       beforeEach(function() {
-        if (typeof document === 'undefined') {
-          pending('This test only runs in browsers');
-        }
+        specHelpers.requiresBrowser();
       });
 
       it('passes for equivalent DOM nodes', function() {
@@ -315,9 +313,7 @@ describe('matchersUtil', function() {
 
     describe('when running in Node', function() {
       beforeEach(function() {
-        if (typeof require !== 'function') {
-          pending('This test only runs in Node');
-        }
+        specHelpers.requiresNode();
       });
 
       it('passes for equivalent objects from different vm contexts', function() {

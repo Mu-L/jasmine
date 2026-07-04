@@ -11,9 +11,7 @@ describe('base helpers', function() {
     });
 
     it('returns true for an Error that originated from another frame', function() {
-      if (typeof window === 'undefined') {
-        pending('This test only runs in browsers.');
-      }
+      specHelpers.requiresBrowser();
 
       const iframe = document.createElement('iframe');
       iframe.style.display = 'none';

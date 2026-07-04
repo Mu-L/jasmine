@@ -316,15 +316,9 @@ describe('DelayedFunctionScheduler', function() {
   });
 
   it('does not conflict with native timer IDs', function() {
-    const NODE_JS =
-      typeof process !== 'undefined' &&
-      process.versions &&
-      typeof process.versions.node === 'string';
-    if (NODE_JS) {
-      pending('numeric timer ID conflicts only relevant for browsers.');
-    }
-    const nativeTimeoutId = setTimeout(function() {}, 100);
+    specHelpers.requiresBrowser();
 
+    const nativeTimeoutId = setTimeout(function() {}, 100);
     const scheduler = new privateUnderTest.DelayedFunctionScheduler();
     const fn = jasmine.createSpy('fn');
 
