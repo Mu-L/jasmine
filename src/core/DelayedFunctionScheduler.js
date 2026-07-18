@@ -148,11 +148,10 @@ getJasmineRequireObj().DelayedFunctionScheduler = function(j$, private$) {
       }
 
       for (const fn of funcsToRun) {
-        if (this.deletedKeys_.includes(fn.timeoutKey)) {
-          // skip a timeoutKey deleted whilst we were running
-          return;
+        // skip a timeoutKey deleted whilst we were running
+        if (!this.deletedKeys_.includes(fn.timeoutKey)) {
+          fn.funcToCall.apply(null, fn.params || []);
         }
-        fn.funcToCall.apply(null, fn.params || []);
       }
       this.deletedKeys_ = [];
     } while (

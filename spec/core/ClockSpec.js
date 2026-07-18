@@ -1219,9 +1219,15 @@ describe('Clock (acceptance)', function() {
       global.clearTimeout(timerId2);
     }, 100);
 
-    timerId2 = global.setTimeout(fail, 100);
+    // Two timeouts, scheduled for the same time
+    const shouldBeSkipped = jasmine.createSpy('shouldBeSkipped');
+    const shouldBeCalled = jasmine.createSpy('shouldBeCalled');
+    timerId2 = global.setTimeout(shouldBeSkipped, 100);
+    global.setTimeout(shouldBeCalled, 100);
 
     clock.tick(100);
+    expect(shouldBeSkipped).not.toHaveBeenCalled();
+    expect(shouldBeCalled).toHaveBeenCalled();
   });
 
   it('correctly clears a scheduled interval while the Clock is advancing', function() {
@@ -1243,9 +1249,15 @@ describe('Clock (acceptance)', function() {
       global.clearInterval(timerId2);
     }, 100);
 
-    timerId2 = global.setInterval(fail, 100);
+    // Two timeouts, scheduled for the same time
+    const shouldBeSkipped = jasmine.createSpy('shouldBeSkipped');
+    const shouldBeCalled = jasmine.createSpy('shouldBeCalled');
+    timerId2 = global.setInterval(shouldBeSkipped, 100);
+    global.setInterval(shouldBeCalled, 100);
 
     clock.tick(400);
+    expect(shouldBeSkipped).not.toHaveBeenCalled();
+    expect(shouldBeCalled).toHaveBeenCalled();
   });
 
   isNonMonkeyPatchableClass(privateUnderTest.Clock, function() {
