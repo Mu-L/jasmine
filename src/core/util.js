@@ -39,10 +39,6 @@ getJasmineRequireObj().util = function(j$, private$) {
     return descriptor;
   };
 
-  util.has = function(obj, key) {
-    return Object.prototype.hasOwnProperty.call(obj, key);
-  };
-
   function callerFile() {
     const trace = new private$.StackTrace(new Error());
     return trace.frames[1].file;
