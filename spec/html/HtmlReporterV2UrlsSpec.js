@@ -49,7 +49,7 @@ describe('HtmlReporterV2Urls', function() {
     function ignoresEmpty(k) {
       it(`sets config.${k} to undefined when the ${k} query param is empty`, function() {
         const queryString = mockQueryString();
-        queryString.getParam.withArgs(k).and.returnValue(undefined);
+        queryString.getParam.withArgs(k).and.returnValue('');
         const subject = new jasmineUnderTest.HtmlReporterV2Urls({
           queryString
         });
