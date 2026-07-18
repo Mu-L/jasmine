@@ -327,7 +327,7 @@ getJasmineRequireObj().interface = function(jasmine, env) {
      * @function
      * @global
      * @overwritable
-     * @param {String} [reason] - Reason why the spec is not applicable.
+     * @param {String} reason - Reason why the spec is not applicable.
      */
     notApplicable: function() {
       return env.notApplicable.apply(env, arguments);
