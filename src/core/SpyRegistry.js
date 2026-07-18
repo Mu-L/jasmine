@@ -165,7 +165,7 @@ getJasmineRequireObj().SpyRegistry = function(j$, private$) {
         }
       }
 
-      const originalDescriptor = private$.util.clone(descriptor);
+      const originalDescriptor = private$.util.shallowCopy(descriptor);
       const spy = createSpy(propertyName, descriptor[accessType]);
       let restoreStrategy;
 

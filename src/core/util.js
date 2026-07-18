@@ -3,7 +3,7 @@ getJasmineRequireObj().util = function(j$, private$) {
 
   const util = {};
 
-  util.clone = function(obj) {
+  util.shallowCopy = function(obj) {
     if (Object.prototype.toString.apply(obj) === '[object Array]') {
       return obj.slice();
     }
@@ -18,7 +18,7 @@ getJasmineRequireObj().util = function(j$, private$) {
     return cloned;
   };
 
-  util.cloneArgs = function(args) {
+  util.shallowCopyArgs = function(args) {
     return Array.from(args).map(function(arg) {
       const str = Object.prototype.toString.apply(arg);
       const primitives = /^\[object (Boolean|String|RegExp|Number)/;
@@ -29,7 +29,7 @@ getJasmineRequireObj().util = function(j$, private$) {
       } else if (str === '[object Date]') {
         return new Date(arg.valueOf());
       } else {
-        return private$.util.clone(arg);
+        return private$.util.shallowCopy(arg);
       }
     });
   };

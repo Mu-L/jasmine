@@ -114,29 +114,31 @@ describe('util', function() {
     });
   });
 
-  describe('cloneArgs', function() {
+  describe('shallowCopyArgs', function() {
     it('clones primitives as-is', function() {
-      expect(privateUnderTest.util.cloneArgs([true, false])).toEqual([
+      expect(privateUnderTest.util.shallowCopyArgs([true, false])).toEqual([
         true,
         false
       ]);
-      expect(privateUnderTest.util.cloneArgs([0, 1])).toEqual([0, 1]);
-      expect(privateUnderTest.util.cloneArgs(['str'])).toEqual(['str']);
+      expect(privateUnderTest.util.shallowCopyArgs([0, 1])).toEqual([0, 1]);
+      expect(privateUnderTest.util.shallowCopyArgs(['str'])).toEqual(['str']);
     });
 
     it('clones Regexp objects as-is', function() {
       const regex = /match/;
-      expect(privateUnderTest.util.cloneArgs([regex])).toEqual([regex]);
+      expect(privateUnderTest.util.shallowCopyArgs([regex])).toEqual([regex]);
     });
 
     it('clones Date objects as-is', function() {
       const date = new Date(2022, 1, 1);
-      expect(privateUnderTest.util.cloneArgs([date])).toEqual([date]);
+      expect(privateUnderTest.util.shallowCopyArgs([date])).toEqual([date]);
     });
 
     it('clones null and undefined', function() {
-      expect(privateUnderTest.util.cloneArgs([null])).toEqual([null]);
-      expect(privateUnderTest.util.cloneArgs([undefined])).toEqual([undefined]);
+      expect(privateUnderTest.util.shallowCopyArgs([null])).toEqual([null]);
+      expect(privateUnderTest.util.shallowCopyArgs([undefined])).toEqual([
+        undefined
+      ]);
     });
   });
 
