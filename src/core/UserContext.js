@@ -6,10 +6,8 @@ getJasmineRequireObj().UserContext = function(j$, private$) {
   UserContext.fromExisting = function(oldContext) {
     const context = new UserContext();
 
-    for (const prop in oldContext) {
-      if (oldContext.hasOwnProperty(prop)) {
-        context[prop] = oldContext[prop];
-      }
+    for (const [k, v] of Object.entries(oldContext)) {
+      context[k] = v;
     }
 
     return context;

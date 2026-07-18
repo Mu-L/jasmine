@@ -48,6 +48,14 @@ describe('UserContext', function() {
       it('returns an UserContext', function() {
         expect(this.cloned.constructor).toBe(privateUnderTest.UserContext);
       });
+
+      it('works even if the provided object overrides hasOwnProperty', function() {
+        this.context.hasOwnProperty = function() {
+          return false;
+        };
+        this.cloned = privateUnderTest.UserContext.fromExisting(this.context);
+        expect(this.cloned.key).toEqual(this.value);
+      });
     });
   });
 });

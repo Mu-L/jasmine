@@ -128,6 +128,17 @@ describe('Spies', function() {
       expect(spyObj.method2.and.identity).toEqual('BaseName.method2');
     });
 
+    it('works even if the provided object overrides hasOwnProperty', function() {
+      const spyObj = env.createSpyObj('BaseName', {
+        method1: 42,
+        hasOwnProperty() {
+          return false;
+        }
+      });
+
+      expect(spyObj.method1()).toEqual(42);
+    });
+
     it('should create an object with a bunch of spy methods when you call jasmine.createSpyObj()', function() {
       const spyObj = env.createSpyObj('BaseName', ['method1', 'method2']);
 

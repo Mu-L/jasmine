@@ -66,19 +66,13 @@ getJasmineRequireObj().SpyFactory = function(j$, private$) {
   }
 
   function normalizeKeyValues(object) {
-    const result = [];
     if (Array.isArray(object)) {
-      for (let i = 0; i < object.length; i++) {
-        result.push([object[i]]);
-      }
+      return Array.prototype.map.call(object, x => [x]);
     } else if (private$.isObject(object)) {
-      for (const key in object) {
-        if (object.hasOwnProperty(key)) {
-          result.push([key, object[key]]);
-        }
-      }
+      return Object.entries(object);
+    } else {
+      return [];
     }
-    return result;
   }
 
   return SpyFactory;

@@ -8,14 +8,7 @@ getJasmineRequireObj().util = function(j$, private$) {
       return obj.slice();
     }
 
-    const cloned = {};
-    for (const prop in obj) {
-      if (obj.hasOwnProperty(prop)) {
-        cloned[prop] = obj[prop];
-      }
-    }
-
-    return cloned;
+    return { ...obj };
   };
 
   util.shallowCopyArgs = function(args) {
