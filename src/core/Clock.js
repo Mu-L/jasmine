@@ -222,11 +222,9 @@ callbacks to execute _before_ running the next one.
           return;
         }
 
-        if (!delayedFunctionScheduler.isEmpty()) {
-          delayedFunctionScheduler.runNextQueuedFunction(function(millis) {
-            mockDate.tick(millis);
-          });
-        }
+        delayedFunctionScheduler.runNextQueuedFunction(function(millis) {
+          mockDate.tick(millis);
+        });
       }
     }
 

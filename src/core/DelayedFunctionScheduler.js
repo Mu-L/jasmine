@@ -79,12 +79,6 @@ getJasmineRequireObj().DelayedFunctionScheduler = function(j$, private$) {
       }
     };
 
-    // Returns whether there are any scheduled functions.
-    // Returns true if there are any scheduled functions, otherwise false.
-    this.isEmpty = function() {
-      return this.scheduledFunctions_.length === 0;
-    };
-
     // Runs the next timeout in the queue, advancing the clock.
     this.runNextQueuedFunction = function(tickDate) {
       if (this.scheduledLookup_.length === 0) {
